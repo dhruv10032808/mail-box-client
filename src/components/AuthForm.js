@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
-import {Link} from 'react-router-dom';
+import {Link,useNavigate} from 'react-router-dom';
 import classes from './AuthForm.module.css'
 const AuthForm = () => {
+  const navigate=useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -54,8 +55,8 @@ const AuthForm = () => {
       }
       if (isLogin) {
         localStorage.setItem("token", data.idToken);
-        let newEmailString = enteredEmail.replace(/[@.]/gi, "");
-        localStorage.setItem("email", newEmailString);
+        localStorage.setItem("email", enteredEmail);
+        navigate('/home')
         return;
       }
       setIsLogin(true);
