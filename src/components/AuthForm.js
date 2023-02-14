@@ -1,7 +1,10 @@
 import React, { useState, useRef } from "react";
 import {Link,useNavigate} from 'react-router-dom';
+import { useDispatch } from "react-redux";
 import classes from './AuthForm.module.css'
+import { authActions } from "../store/auth-slice";
 const AuthForm = () => {
+    const dispatch=useDispatch();
   const navigate=useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const emailInputRef = useRef();
@@ -56,6 +59,7 @@ const AuthForm = () => {
       if (isLogin) {
         localStorage.setItem("token", data.idToken);
         localStorage.setItem("email", enteredEmail);
+        dispatch(authActions.login({token:data.idToken,email:enteredEmail}))
         navigate('/home')
         return;
       }
