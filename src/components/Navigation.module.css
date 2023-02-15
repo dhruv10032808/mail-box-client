@@ -1,0 +1,9 @@
+.mainNav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: azure;
+    padding: 15px 0 15px 0;
+    border-bottom: 5px solid seagreen;
+    z-index: 2;
+  }
