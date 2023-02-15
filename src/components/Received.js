@@ -9,7 +9,7 @@ const Received = () => {
   const mails = useSelector((state) => state.mail.mailData);
   const receivedMails = mails.filter((mail) => mail.to === email);
   const mailData = receivedMails.map((mail) => (
-    <MailData key={mail.id} mail={mail} mailId={mail.from}/>
+    <MailData key={mail.id} mail={mail} mailId={mail.from} toOrFrom='From:'/>
   ));
 
   return (

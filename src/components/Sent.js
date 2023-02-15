@@ -8,7 +8,7 @@ const Sent=()=>{
     const mails=useSelector((state)=>state.mail.mailData);
     const sentMails=mails.filter((mail)=>mail.from===email)
     const mailData=sentMails.map((mail)=>{
-        return <MailData key={mail.id} mail={mail} mailId={mail.to}/>
+        return <MailData key={mail.id} mail={mail} mailId={mail.to} toOrFrom='To:'/>
     })
 
     return(<div className={classes.main}>

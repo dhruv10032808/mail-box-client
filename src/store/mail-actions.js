@@ -7,7 +7,7 @@ export const addMail=(mail,clearInput)=>{
         try{
           const response=await fetch(`https://mail-box-client-b22d0-default-rtdb.firebaseio.com/${senderEmail}.json`,{
             method:'POST',
-            body:JSON.stringify(mail),
+            body:JSON.stringify({...mail,read:true}),
             headers:{
                 'Content-Type':'application/json'
             }
@@ -15,7 +15,7 @@ export const addMail=(mail,clearInput)=>{
           await fetch(`https://mail-box-client-b22d0-default-rtdb.firebaseio.com/${receiverEmail}.json`,
             {
               method: 'POST',
-              body: JSON.stringify(mail),
+              body: JSON.stringify({...mail,read:false}),
               headers: {
                 'Content-Type': 'application/json',
               },
@@ -41,19 +41,23 @@ export const addMail=(mail,clearInput)=>{
       };
     };
 
-    export const replaceMail = (email) => {
+    export const replaceMail = (emailUrl,loggedUserEmail) => {
         return async (dispatch) => {
           try {
             const response = await fetch(
-                `https://mail-box-client-b22d0-default-rtdb.firebaseio.com/${email}.json`
+                `https://mail-box-client-b22d0-default-rtdb.firebaseio.com/${emailUrl}.json`
             );
             const data = await response.json();
             if (response.ok) {
               let mailData = [];
+              let unreadMessageCount=0;
               for (let key in data) {
                 mailData = [{ id: key, ...data[key] }, ...mailData];
+                if(data[key].to === loggedUserEmail && data[key].read === false) {
+                    unreadMessageCount++;
+                  }
               }
-              dispatch(mailActions.replace(mailData));
+              dispatch(mailActions.replace({mailData:mailData,unreadMessageCount: unreadMessageCount}));
             } else {
               throw data.error;
             }
