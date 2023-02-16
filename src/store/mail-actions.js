@@ -67,3 +67,19 @@ export const addMail=(mail,clearInput)=>{
         };
       };
 
+      export const deleteMail=(mail)=>{
+        const email=localStorage.getItem('email');
+        const emailUrl=email.replace(/[@.]/gi, '')
+        return(dispatch)=>{
+        fetch(`https://mail-box-client-b22d0-default-rtdb.firebaseio.com/${emailUrl}/${mail.id}.json`,{
+          method:'DELETE',
+          headers:{
+            'Content-Type':'application/json'
+          }
+        }).then((res)=>{
+          if(res.ok){
+            dispatch(mailActions.remove(mail));
+          }
+        })
+      }
+      }

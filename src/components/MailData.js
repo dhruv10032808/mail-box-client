@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { replaceMail } from "../store/mail-actions";
+import { deleteMail, replaceMail } from "../store/mail-actions";
 import classes from './MailData.module.css';
 
 const MailData=(props)=>{
@@ -36,6 +36,10 @@ const MailData=(props)=>{
           }
         }
       };
+      const deleteHandler=(event)=>{
+        event.preventDefault();
+        dispatch(deleteMail(props.mail))
+      }
 
     return(<div className={classes.complete}>
         {props.toOrFrom === 'From:' && !props.mail.read && (
@@ -55,6 +59,7 @@ const MailData=(props)=>{
           <div className={showBody ? classes.body : classes.notBody}>
             {props.mail.text}
           </div>
+          <button className="bg-danger" onClick={deleteHandler}>Delete</button>
           </div>
           </div>)
 }

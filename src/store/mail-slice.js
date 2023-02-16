@@ -16,7 +16,9 @@ const mailSlice=createSlice({
             state.firstTime=false;
             state.unreadMessageCount=action.payload.unreadMessageCount
         },
-        remove(state){}
+        remove(state,action){
+            state.mailData=state.mailData.filter((mail)=>mail.id!==action.payload.id)
+        }
     }
 })
 export const mailActions=mailSlice.actions;
