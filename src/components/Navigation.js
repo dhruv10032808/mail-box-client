@@ -10,8 +10,7 @@ const Navigation=()=>{
         dispatch(authActions.logout())
     }
     return(<div className={classes.mainNav}>
-    <Link to="/home">Mail Box</Link>
-    <Link to='/'><button onClick={logoutHandler}>Logout</button></Link>
+    <Link to='/'><button onClick={logoutHandler} className={classes.btn}>Logout</button></Link>
     </div>)
 }
 export default Navigation;

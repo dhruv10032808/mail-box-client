@@ -12,6 +12,7 @@ export const addMail=(mail,clearInput)=>{
                 'Content-Type':'application/json'
             }
           })
+          if (senderEmail !== receiverEmail){
           await fetch(`https://mail-box-client-b22d0-default-rtdb.firebaseio.com/${receiverEmail}.json`,
             {
               method: 'POST',
@@ -21,7 +22,7 @@ export const addMail=(mail,clearInput)=>{
               },
             }
           );
-    
+          }
           const data = await response.json();
     
           if (response.ok) {
@@ -83,3 +84,40 @@ export const addMail=(mail,clearInput)=>{
         })
       }
       }
+
+      export const updateMail = (emailUrl, loggedUserEmail, currentMailData) => {
+        return async (dispatch) => {
+          try {
+            const response = await fetch(
+              `https://mail-box-client-b22d0-default-rtdb.firebaseio.com/${emailUrl}.json`
+            );
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+              if (data&&currentMailData &&(data.length > currentMailData.length)) {
+                let mailData = [];
+                let unreadMessageCount = 0;
+    
+                for (let key in data) {
+                  mailData = [{ id: key, ...data[key] }, ...mailData];
+                  if (data[key].to === loggedUserEmail && data[key].read === false) {
+                    unreadMessageCount++;
+                  }
+                }
+    
+                dispatch(
+                  mailActions.replace({
+                    mailData: mailData,
+                    unreadMessageCount: unreadMessageCount,
+                  })
+                );
+              }
+            } else {
+              throw data.error;
+            }
+          } catch (error) {
+            console.log(error.message);
+          }
+        };
+      };

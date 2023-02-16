@@ -27,7 +27,7 @@ const Sidebar = () => {
       <li onClick={sentHandler} className={show.sent ? classes.sent : ''}>Sent</li>
       <li onClick={receivedHandler} className={show.received ? classes.received : ''}>
         <span>Inbox</span>
-        <span style={{marginLeft:10,color:'pink'}}>{unreadMessageCount>0?unreadMessageCount:''}</span>
+        <span style={{marginLeft:10,color:'black',border:'black'}}>{unreadMessageCount>0?unreadMessageCount:''}</span>
         </li>
     </div>
   );
